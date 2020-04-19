@@ -1,0 +1,244 @@
+<script>
+
+    function moveTask(task_id, origin_list_id, destination_list_id){
+        data = {
+            "task_id" : task_id,
+            "origin_list_id" : origin_list_id,
+            "destination_list_id" : destination_list_id
+        };
+
+        var xhr = new XMLHttpRequest();
+        var url = "{{ url_for('move_task') }}";
+        xhr.open("POST", url);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                console.log(xhr.responseText);
+                //location.reload();
+            }
+        };
+
+        xhr.send(JSON.stringify(data));
+    }
+
+    function submitTask(task_id) {
+        task = {
+            "id" : task_id,
+            "title" : document.getElementById("task_edit_title").innerText,
+            "body" : document.getElementById("task_edit_body").innerText,
+            "due_date" : document.getElementById("task_edit_due_date").innerText,
+            "assignee" : document.getElementById("edit_task_assignees").value,
+            "color" : document.getElementById("task_edit_selected_color").style.backgroundColor
+        };
+
+        var xhr = new XMLHttpRequest();
+        var url = "{{ url_for('update_task') }}";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                console.log(xhr.responseText);
+                closeTaskEditBox();
+            }
+        };
+
+        xhr.onerror = function () {
+            alert("There was a problem saving the task.");
+        };
+
+        xhr.send(JSON.stringify(task));
+    }
+
+    function newTask(taskListId) {
+        var xhr = new XMLHttpRequest();
+        var url = "/new/task/" + taskListId;
+        xhr.open("GET", url, false);
+        xhr.send();
+        var newTaskId = xhr.responseText;
+
+        console.log("Task created with id: " + newTaskId);
+        openTaskEditBox(newTaskId);
+    }
+
+    function newTaskList() {
+        var xhr = new XMLHttpRequest();
+        var url = "/new/list";
+        xhr.open("GET", url, false);
+        xhr.send();
+        var newTaskListId = xhr.responseText;
+
+        console.log("Task List created with id: " + newTaskListId);
+        openListEditBox(newTaskListId);
+    }
+
+    function deleteTask(taskId) {
+        if (confirm("Are you sure you want to delete this task?")){
+            var xhr = new XMLHttpRequest();
+            var url = "/delete/task/" + taskId;
+            xhr.open("GET", url, false);
+            xhr.send();
+
+            console.log(xhr.responseText);
+            closeTaskEditBox();
+        }
+    }
+
+    function setSelectedColor(selectedColorName) {
+        colorName = selectedColorName.toLowerCase();
+
+        //set the selected color
+        document.getElementById("task_edit_selected_color").style.backgroundColor = colorName;
+
+        //clear selected color nubs
+        var nubs = document.getElementsByClassName("edit_box_color_nub_selected");
+        for(var index=0; index < nubs.length; index++) {
+            nubs[index].className="edit_box_color_nub"
+        }
+
+        //set the new selected color nub
+        document.getElementById(colorName).className = "edit_box_color_nub_selected";
+    }
+
+    function colorizeNubs(){
+        var nubs = document.getElementsByClassName("edit_box_color_nub");
+        for(var index=0; index < nubs.length; index++) {
+            nubs[index].style.backgroundColor = nubs[index].id;
+        }
+    }
+
+    function getListDetails(listId) {
+        var xhr = new XMLHttpRequest();
+        var url = "/list/" + listId;
+        xhr.open("GET", url, false);
+        xhr.send();
+        return JSON.parse(xhr.responseText);
+    }
+
+    function deleteList(listId) {
+        if (confirm("Are you sure want to delete this list?\nAll tasks in the list will be deleted!")){
+            var xhr = new XMLHttpRequest();
+            var url = "/delete/list/" + listId;
+            xhr.open("GET", url, false);
+            xhr.send();
+
+            console.log(xhr.responseText);
+            closeTaskEditBox();
+        }
+    }
+
+    function openListEditBox(listId) {
+        var listDetails = getListDetails(listId);
+
+        document.getElementById("list_edit_title").innerText = "" + listDetails['title'];
+        document.getElementById("list_edit_box_button_save").setAttribute('onclick', "submitList('" + listId + "')");
+        document.getElementById("list_edit_box_button_delete").setAttribute('onclick', "deleteList('" + listId + "')");
+
+        window.scrollTo(0, 0);
+        document.getElementById("edit_list_wrapper").style.display = "block";
+        document.getElementById("task_lists").style.filter = "blur(5px)";
+    }
+
+    function submitList(listId) {
+        list = {
+            "id" : listId,
+            "title" : document.getElementById("list_edit_title").innerText
+        };
+
+        var xhr = new XMLHttpRequest();
+        var url = "{{ url_for('update_list') }}";
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                console.log(xhr.responseText);
+                closeListEditBox();
+            }
+        };
+
+        xhr.onerror = function () {
+            alert("There was a problem saving the list.");
+        };
+
+        xhr.send(JSON.stringify(list));
+    }
+
+    function closeListEditBox() {
+        document.getElementById("edit_list_wrapper").style.display = "none";
+        document.getElementById("task_lists").style.filter = "none";
+        location.reload();
+    }
+
+    function openTaskEditBox(task_id) {
+        var task_data = getTask(task_id);
+
+        colorizeNubs();
+
+        document.getElementById("task_edit_title").innerText = "" + task_data['title'];
+        document.getElementById("task_edit_body").innerText = "" + task_data['body'];
+        document.getElementById("task_edit_due_date").innerText = "" + task_data['due_date'];
+        document.getElementById("task_edit_box_button_save").setAttribute('onclick',"submitTask('" + task_id + "')");
+        document.getElementById("task_edit_box_button_delete").setAttribute('onclick',"deleteTask('" + task_id + "')");
+        document.getElementById("edit_task_assignees").value = '{{ current_user.id }}';
+
+        setSelectedColor(task_data['color']);
+        window.scrollTo(0, 0);
+        document.getElementById("edit_task_wrapper").style.display = "block";
+        document.getElementById("task_lists").style.filter = "blur(5px)";
+    }
+
+    function closeTaskEditBox() {
+        document.getElementById("edit_task_wrapper").style.display = "none";
+        document.getElementById("task_lists").style.filter = "none";
+        location.reload();
+    }
+
+    function getTask(task_id) {
+        var xhr = new XMLHttpRequest();
+        var url = "/task/" + task_id;
+        xhr.open("GET", url, false);
+        xhr.send();
+        return JSON.parse(xhr.responseText);
+    }
+
+    function setIncomingList(new_incoming_mark) {
+        var previous_incoming_mark = document.getElementsByClassName("incoming_icon_activated").item(0);
+
+        if (previous_incoming_mark != null){
+            previous_incoming_mark.className = "incoming_icon_deactivated";
+            previous_incoming_mark.innerHTML = incomingIcon('0');
+            previous_incoming_mark.setAttribute('onclick', 'setIncomingList(this)');
+        }
+
+        setIncoming(new_incoming_mark.parentElement.parentElement.id);
+
+        new_incoming_mark.innerHTML = incomingIcon('1');
+        new_incoming_mark.className = "incoming_icon_activated";
+    }
+
+    function setIncoming(list_id) {
+        console.log(list_id);
+
+        var xhr = new XMLHttpRequest();
+        var url = "{{ url_for('set_incoming_list') }}";
+        xhr.open("POST", url, false);
+        xhr.setRequestHeader("Content-Type", "text/html");
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                console.log("Task list updated.");
+            }
+        };
+
+        xhr.onerror = function () {
+            alert("There was a problem setting the incoming list.");
+        };
+
+        xhr.send(list_id);
+    }
+
+    function incomingIcon(inversion){
+        return '<img webapp="/static/images/incoming.svg" height="16px" style="filter:invert(' + inversion + ');">'
+    }
+
+</script>

@@ -1,0 +1,444 @@
+.body{
+    background-color: #a4dbff;
+    color: #202020;
+    font-family: Calibri;
+    margin: 0px;
+}
+
+.container{
+}
+
+.app_title{
+    font-family: "Monotype Corsiva" ;
+    font-size: 32px;
+    height: 50px;
+    line-height: 50px;
+    width: 200px;
+    font-weight: bold;
+    font-style: italic;
+    background-color: #f1f1f1;
+    border-bottom: 2px solid white;
+}
+
+.content{
+    /*margin-left: 200px;*/
+}
+
+.top_bar{
+    height: 60px;
+    background-color: #4ab7ff;
+    border-bottom: 2px solid white;
+    margin-bottom: 20px;
+}
+
+.task_lists_wrapper{
+    float: none;
+}
+
+.task_list{
+    padding: 20px;
+    margin-left: 40px;
+    width: 200px;
+    float: left;
+    margin-bottom: 120px;
+    background-color: #838383;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: rgba(0,0,0,0);
+    border-style: dashed;
+    overflow: auto;
+}
+
+.new_task_list_button {
+    padding: 20px;
+    margin-left: 40px;
+    width: 200px;
+    height: 50px;
+    float: left;
+    margin-bottom: 120px;
+    background-color: rgba(131, 131, 131, 0.49);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0);
+    border-style: none;
+}
+
+.new_task_list_button:hover{
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.task_list_target_deactivated{
+    padding: 20px;
+    margin-left: 40px;
+    width: 200px;
+    float: left;
+    margin-bottom: 120px;
+    background-color: #838383;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: rgba(0,0,0,0);
+    border-style: dashed;
+    animation-name: fadeout;
+    animation-duration: 500ms;
+}
+
+@keyframes fadeout {
+    from {
+        border-color: rgba(255,255,255,1);
+        background-color: #acacac;
+    }
+    to {
+        border-color: rgba(0,0,0,0);
+        background-color: #838383;
+    }
+}
+
+.task_list_target_activated{
+    padding: 20px;
+    margin-left: 40px;
+    width: 200px;
+    float: left;
+    margin-bottom: 120px;
+    background-color: #acacac;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: rgba(255,255,255,1);
+    border-style: dashed;
+}
+
+.task_list_title{
+    color: white;
+    text-align: center;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.task_list_actions{
+    height: 45px;
+}
+
+.incoming_icon_activated{
+    text-align: center;
+    height: 25px;
+    width: 30px;
+    float: left;
+    padding-top: 5px;
+    padding-left: 1px;
+    padding-right: 1px;
+    border-radius: 5px;
+    margin-right: 15px;
+    cursor: pointer;
+    background-color: #61ce5d;
+}
+
+.incoming_icon_deactivated{
+    text-align: center;
+    height: 25px;
+    width: 30px;
+    float: left;
+    padding-top: 5px;
+    padding-left: 1px;
+    padding-right: 1px;
+    border-radius: 5px;
+    margin-right: 15px;
+    cursor: pointer;
+    background-color: #c7c7c7;
+}
+
+.edit_task_button{
+    text-align: center;
+    height: 25px;
+    width: 31px;
+    padding-top: 5px;
+    padding-left: 1px;
+    background-color: #c7c7c7;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 20px;
+    float: left;
+}
+
+.task{
+    padding: 5%;
+    width: 85%;
+    background-color: #ffffff;
+    color: black;
+    border-top-right-radius: 17px;
+}
+
+.task_wrapper{
+    background-color: #52a800;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+    border-top-right-radius: 20px;
+    cursor: pointer;
+}
+
+.task:hover{
+    background-color: #ffffe0;
+}
+
+.task_body_text{
+    color: #7a7a7a;
+}
+
+.task_title{
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.task_due_date{
+    margin-top: 10px;
+    color: dimgrey;
+    text-transform: uppercase;
+    font-style: italic;
+    font-size: 12px;
+}
+
+.task_assigned_to{
+    margin-top: 10px;
+    color: dimgrey;
+    font-style: italic;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.info_box{
+    text-align: right;
+    color: white;
+    padding: 10px;
+    margin-left: 2%;
+}
+
+.new_task{
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #c7c7c7;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    color: #666666;
+    height: 25px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.new_task:hover{
+    background-color: white;
+}
+
+.edit_box_wrapper{
+    background-color: rgba(0,0,0,0.6);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    display: none;
+}
+
+.edit_box{
+    margin-top: 5%;
+    width: 450px;
+    padding-top: 20px;
+    background-color: darkgrey;
+    border-radius: 20px;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+.edit_box_color_nub{
+    height: 25px;
+    width: 25px;
+    margin-left: 15px;
+    border-radius: 20px;
+    float: right;
+    background-color: #52a800;
+    cursor: pointer;
+    border-color: #202020;
+    border-style: none;
+    border-width: 1px;
+}
+
+.edit_box_color_nub_selected{
+    height: 25px;
+    width: 25px;
+    margin-left: 15px;
+    border-radius: 20px;
+    float: right;
+    background-color: #52a800;
+    cursor: pointer;
+    border-color: #202020;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.edit_box_element{
+    background-color: white;
+    color: black;
+    padding: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 0px 20px 20px 20px;
+    border-radius: 5px;
+    min-height: 20px;
+}
+
+.edit_box_editable_field{
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    margin-top: 5px;
+    min-height: 20px;
+    padding: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    color: #444444;
+    border-radius: 0;
+}
+
+.edit_box_buttons_wrapper{
+    margin-top: 10px;
+    height: 55px;
+    width: 100%;
+}
+
+.edit_box_button{
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-right: 20px;
+}
+
+#task_edit_box_button_save{
+    background-color: #008bea;
+    padding-left: 45px;
+    padding-right: 45px;
+    float: right;
+}
+
+#task_edit_box_button_cancel{
+    background-color: #777777;
+    padding-left: 10px;
+    padding-right: 10px;
+    float: right;
+}
+
+#task_edit_box_button_delete{
+    background-color: #cf432c;
+    padding-left: 10px;
+    padding-right: 10px;
+    float: left;
+    margin-left: 20px;
+}
+
+#list_edit_box_button_save{
+    background-color: #008bea;
+    padding-left: 45px;
+    padding-right: 45px;
+    float: right;
+}
+
+#list_edit_box_button_cancel{
+    background-color: #777777;
+    padding-left: 10px;
+    padding-right: 10px;
+    float: right;
+}
+
+#list_edit_box_button_delete{
+    background-color: #cf432c;
+    padding-left: 10px;
+    padding-right: 10px;
+    float: left;
+    margin-left: 20px;
+}
+
+#logout_button{
+    margin-top: 10px;
+    background-color: #777777;
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-left: 25px;
+    float: right;
+}
+
+.task_edit_assignee{
+    float: left;
+}
+
+.edit_box_header{
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.edit_box_card_title{
+    text-transform: uppercase;
+    font-size: 20px;
+    font-family: Helvetica;
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.edit_box_task_id{
+    margin-top: 10px;
+    color: dimgrey;
+    font-style: italic;
+    font-size: 12px;
+}
+
+.menu_item{
+    padding: 15px;
+    height: 40px;
+    line-height: 40px;
+}
+
+.menu_user_name{
+    text-transform: uppercase;
+    color: #202020;
+    height: 40px;
+    line-height: 40px;
+    font-weight: bold;
+    padding-left: 20px;
+    padding-top: 15px;
+}
+
+.menu_item:hover{
+    color: coral;
+    background-color: white;
+    vertical-align: center;
+}
+
+.side_menu{
+  margin: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  background: linear-gradient(rgba(241,241,241,1) 0%, rgba(241,241,241,1) 35%, rgba(255,249,235,0) 75%);
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.footer{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: white;
+  color: grey;
+
+}

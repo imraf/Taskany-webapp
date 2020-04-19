@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+
+
+<div class="container">
+    {% block main_app %}
+        {% include "component_top_bar.html" %}
+{#        {% include "component_side_menu.html" %}#}
+        <div class="content">
+            {% include "component_tasks.html" %}
+        </div>
+    {% endblock %}
+</div>

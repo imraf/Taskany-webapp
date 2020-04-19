@@ -1,0 +1,200 @@
+<script>
+    function setupListDragEvents(targetListId) {
+        var target = document.getElementById(targetListId);
+
+        target.addEventListener("dragover", function(event) {
+            event.preventDefault();
+            if ( target.className == "task_list" || target.className == "task_list_target_deactivated") {
+                target.className = "task_list_target_activated";
+            }
+        });
+
+        target.addEventListener("dragleave", function(event) {
+            event.preventDefault();
+            if ( target.className == "task_list_target_activated" ) {
+                target.className = "task_list_target_deactivated";
+            }
+        });
+
+        target.addEventListener("drop", function(event) {
+            event.preventDefault();
+            if ( target.className == "task_list_target_activated" ) {
+                target.className = "task_list_target_deactivated";
+
+                var taskId = event.dataTransfer.getData("Text");
+                var taskDivWrapper = document.getElementById(taskId + "_wrapper");
+                var originListId = taskDivWrapper.parentElement.id;
+
+                if (originListId !== target.id){
+                    //Update task on server:
+                    moveTask(taskId, originListId, targetListId);
+
+                    //Move the task in the front end:
+                    target.appendChild(taskDivWrapper);
+                }
+                else {
+                    console.log("Nothing to do.")
+                }
+            }
+        });
+    }
+
+    function setupTaskDragData(task_id){
+        var task_wrapper = document.getElementById(task_id + "_wrapper");
+
+        task_wrapper.addEventListener("dragstart", function (event) {
+            event.dataTransfer.setData("Text", task_id);
+            console.log("Dragging " + task_id);
+        });
+    }
+</script>
+
+{# List Editing #}
+<div id="edit_list_wrapper" class="edit_box_wrapper">
+    <div id="list_edit_box" class="edit_box">
+        <div class="edit_box_card_title">Edit List</div>
+
+        <div class="edit_box_element">
+            <div class="edit_box_header">Title:</div>
+            <div id="list_edit_title" class="edit_box_editable_field" contenteditable="true"></div>
+        </div>
+
+        <div class="edit_box_buttons_wrapper">
+            <div id="list_edit_box_button_save" class="edit_box_button" onclick="">SAVE</div>
+            <div id="list_edit_box_button_cancel" class="edit_box_button" onclick="closeListEditBox()">CANCEL</div>
+            <div id="list_edit_box_button_delete" class="edit_box_button" onclick="">DELETE</div>
+        </div>
+    </div>
+</div>
+
+
+{# Task Editing #}
+<div id="edit_task_wrapper" class="edit_box_wrapper">
+    <div id="task_edit_box" class="edit_box">
+
+        <div class="edit_box_card_title">Edit Task</div>
+        <div class="edit_box_element">
+            <div class="edit_box_header">Title:</div>
+            <div id="task_edit_title" class="edit_box_editable_field" contenteditable="true"></div>
+        </div>
+
+        <div class="edit_box_element">
+            <div class="edit_box_header">Description:</div>
+            <div id="task_edit_body" class="edit_box_editable_field" contenteditable="true"></div>
+        </div>
+
+        <div class="edit_box_element">
+            <div class="edit_box_header">Due Date:</div>
+            <div id="task_edit_due_date" class="edit_box_editable_field" contenteditable="true"></div>
+        </div>
+
+        <div class="edit_box_element">
+            <div class="edit_box_header" style="float: left; margin-right: 20px">Assigned To:</div>
+            <select id="edit_task_assignees">
+                <option value="{{ current_user.id }}">{{ current_user.name }}</option>
+                {% for team_member in current_user.team.members %}
+                    {% if team_member.id != current_user.id %}
+                        <option value="{{ team_member.id }}">{{ team_member.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="edit_box_element" style="padding-bottom: 18px;">
+            <div class="edit_box_header" style="float: left; padding-top: 2px;">Color:</div>
+            <div id="gold" class="edit_box_color_nub" onclick="setSelectedColor(this.id)"></div>
+            <div id="turquoise" class="edit_box_color_nub" onclick="setSelectedColor(this.id)"></div>
+            <div id="hotpink" class="edit_box_color_nub" onclick="setSelectedColor(this.id)"></div>
+            <div id="deepskyblue" class="edit_box_color_nub" onclick="setSelectedColor(this.id)"></div>
+            <div id="darkorange" class="edit_box_color_nub" onclick="setSelectedColor(this.id)"></div>
+            <div id="limegreen" class="edit_box_color_nub" onclick="setSelectedColor(this.id)"></div>
+            <div id="gainsboro" class="edit_box_color_nub" onclick="setSelectedColor(this.id)"></div>
+            <div id="tomato" class="edit_box_color_nub" onclick="setSelectedColor(this.id)"></div>
+        </div>
+
+        <div class="edit_box_buttons_wrapper">
+            <div id="task_edit_box_button_save" class="edit_box_button" onclick="">SAVE</div>
+            <div id="task_edit_box_button_cancel" class="edit_box_button" onclick="closeTaskEditBox()">CANCEL</div>
+            <div id="task_edit_box_button_delete" class="edit_box_button" onclick="">DELETE</div>
+        </div>
+
+        {# Used to get the selected color - should never be visible. #}
+        <div id="task_edit_selected_color" style="display: none"></div>
+
+    </div>
+</div>
+
+
+{# Render the current user's task lists. #}
+<div id="task_lists" class="task_lists_wrapper">
+    {% for task_list in user.task_lists %}
+        <div class="task_list" id="{{ task_list.id }}">
+
+            {# Add event listeners for this task list #}
+            <script>setupListDragEvents("{{ task_list.id }}")</script>
+
+            <div class="task_list_actions">
+                {# Draw the incoming icon #}
+                {% if task_list.accepts_incoming_tasks %}
+                    <div class="incoming_icon_activated" id="incoming_icon">
+                        <img src="/static/images/incoming.svg" height="16px" style="filter:invert(1)">
+                    </div>
+                {% else %}
+                    <div class="incoming_icon_deactivated" id="incoming_icon" onclick="setIncomingList(this)">
+                        <img src="/static/images/incoming.svg" height="16px">
+                    </div>
+                {% endif %}
+
+                {# Draw the edit button #}
+                <div class="edit_task_button" onclick="openListEditBox('{{ task_list.id }}')">
+                    <img src="/static/images/edit.svg" height="16px">
+                </div>
+            </div>
+
+            <div class="task_list_title" id="{{ task_list.id }}_title">{{ task_list.title }}</div>
+
+            {# Render "New Task" #}
+            <div class="new_task" onclick="newTask('{{ task_list.id }}')">
+                <img src="/static/images/add_icon.svg" style="margin-right: 10px; float: left">
+                <div>New Task...</div>
+            </div>
+
+            {# Render the tasks in the list #}
+            {% for task in task_list.tasks %}
+                <div id="{{ task.id }}_wrapper"
+                     class="task_wrapper"
+                     draggable="true"
+                     style="background-color: {{ task.color }}"
+                     onclick="openTaskEditBox('{{ task.id }}')">
+                    <script>setupTaskDragData("{{ task.id }}")</script>
+
+                    <div class="task" id = "{{ task.id }}">
+                        <div class="task_title" id="{{ task.id }}_title">
+                            {{ task.title }}
+                        </div>
+
+                        <div class="task_body_text" id="{{ task.id }}_body">
+                            {{ task.body }}
+                        </div>
+
+                        <div class="task_due_date" id="{{ task.id }}_due_date">
+                            {{ task.due_date }}
+                        </div>
+
+                        <div class="task_assigned_to" id="{{ task.id }}_assignee">
+                            {{ task.assignee.name }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    {% endfor %}
+
+{# Render new task list button #}
+    <div class="new_task_list_button" onclick="newTaskList()">
+        <img src="/static/images/add_icon.svg" style="margin-right: 10px; float: left">
+        <div>New List...</div>
+    </div>
+
+</div>
