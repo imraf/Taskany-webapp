@@ -206,13 +206,13 @@
 
         if (previous_incoming_mark != null){
             previous_incoming_mark.className = "incoming_icon_deactivated";
-            previous_incoming_mark.innerHTML = incomingIcon('0');
+            previous_incoming_mark.innerHTML = incomingIcon(0);
             previous_incoming_mark.setAttribute('onclick', 'setIncomingList(this)');
         }
 
         setIncoming(new_incoming_mark.parentElement.parentElement.id);
 
-        new_incoming_mark.innerHTML = incomingIcon('1');
+        new_incoming_mark.innerHTML = incomingIcon(1);
         new_incoming_mark.className = "incoming_icon_activated";
     }
 
@@ -238,7 +238,7 @@
     }
 
     function incomingIcon(inversion){
-        return '<img webapp="/static/images/incoming.svg" height="16px" style="filter:invert(' + inversion + ');">'
+        return '<img src="/static/images/incoming.svg" height="16px" style="filter:invert(' + inversion + ');">'
     }
 
 </script>
