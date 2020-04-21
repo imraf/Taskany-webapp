@@ -1,5 +1,7 @@
 <script>
 
+    let currentlySelectedList;
+
     function moveTask(task_id, origin_list_id, destination_list_id){
         data = {
             "task_id" : task_id,
@@ -239,6 +241,20 @@
 
     function incomingIcon(inversion){
         return '<img src="/static/images/incoming.svg" height="16px" style="filter:invert(' + inversion + ');">'
+    }
+
+    function activateList(target) {
+        target.style.backgroundColor = "#acacac";
+        target.style.borderColor = "rgba(255,255,255,1)";
+        target.style.animation = "none";
+        currentlySelectedList = target;
+    }
+
+    function deactivateList(target) {
+        target.style.backgroundColor = "#838383";
+        target.style.borderColor = "rgba(0,0,0,0)";
+        target.style.animation = "fadeout";
+        target.style.animationDuration = "500ms";
     }
 
 </script>

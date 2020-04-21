@@ -32,7 +32,6 @@
 }
 
 .task_lists_wrapper{
-    /*float: none;*/
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -46,8 +45,6 @@
     margin-left: 40px;
     max-width: 200px;
     min-width: 200px;
-    /*width: 200px;*/
-    /*float: left;*/
     margin-bottom: 120px;
     background-color: #838383;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -63,11 +60,9 @@
     padding: 20px;
     margin-left: 40px;
     margin-right: 30px;
-    /*width: 200px;*/
     max-width: 200px;
     min-width: 200px;
     height: 50px;
-    /*float: left;*/
     margin-bottom: 120px;
     background-color: rgba(131, 131, 131, 0.49);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
@@ -82,26 +77,6 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-.task_list_target_deactivated{
-    order: 1;
-    flex-basis: auto;
-    max-width: 200px;
-    min-width: 200px;
-    /*width: 200px;*/
-    /*float: left;*/
-    padding: 20px;
-    margin-left: 40px;
-    margin-bottom: 120px;
-    background-color: #838383;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    border-width: 2px;
-    border-color: rgba(0,0,0,0);
-    border-style: dashed;
-    animation-name: fadeout;
-    animation-duration: 500ms;
-}
-
 @keyframes fadeout {
     from {
         border-color: rgba(255,255,255,1);
@@ -111,24 +86,6 @@
         border-color: rgba(0,0,0,0);
         background-color: #838383;
     }
-}
-
-.task_list_target_activated{
-    max-width: 200px;
-    min-width: 200px;
-    /*width: 200px;*/
-    /*float: left;*/
-    padding: 20px;
-    margin-left: 40px;
-    /*width: 200px;*/
-    /*float: left;*/
-    margin-bottom: 120px;
-    background-color: #acacac;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    border-width: 2px;
-    border-color: rgba(255,255,255,1);
-    border-style: dashed;
 }
 
 .task_list_title{

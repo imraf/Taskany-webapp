@@ -4,23 +4,20 @@
 
         target.addEventListener("dragover", function(event) {
             event.preventDefault();
-            if ( target.className == "task_list" || target.className == "task_list_target_deactivated") {
-                target.className = "task_list_target_activated";
-            }
+            activateList(target);
         });
 
         target.addEventListener("dragleave", function(event) {
             event.preventDefault();
-            if ( target.className == "task_list_target_activated" ) {
-                target.className = "task_list_target_deactivated";
-            }
+            deactivateList(target)
         });
 
         target.addEventListener("drop", function(event) {
             event.preventDefault();
-            if ( target.className == "task_list_target_activated" ) {
-                target.className = "task_list_target_deactivated";
+            if ( currentlySelectedList != null ) {
+                deactivateList(currentlySelectedList);
 
+                //
                 var taskId = event.dataTransfer.getData("Text");
                 var taskDivWrapper = document.getElementById(taskId + "_wrapper");
                 var originListId = taskDivWrapper.parentElement.id;
@@ -28,7 +25,6 @@
                 if (originListId !== target.id){
                     //Update task on server:
                     moveTask(taskId, originListId, targetListId);
-
                     //Move the task in the front end:
                     target.appendChild(taskDivWrapper);
                 }
