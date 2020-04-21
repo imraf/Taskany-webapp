@@ -3,5 +3,12 @@
         <img src="/static/images/logo.png" height="50px" width="50px" style="margin-top: 5px">
     </div>
     <a href="{{ url_for('app_logout') }}"><div id="logout_button" class="edit_box_button">LOGOUT</div></a>
-    {% include "component_info_box.html" %}
+    <div class="info_box">
+        <div>{{ current_user.name }}</div>
+        {% if current_user.team %}
+            {{ current_user.team.name }}
+        {% elif sprint_info%}
+            <div>{{ sprint_info }}</div>
+        {% endif %}
+    </div>
 </div>
