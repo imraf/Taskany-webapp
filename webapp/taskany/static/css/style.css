@@ -54,7 +54,7 @@
     border-radius: 10px;
     border-width: 2px;
     border-color: rgba(0,0,0,0);
-    border-style: dashed;
+    border-style: solid;
 }
 
 .new_task_list_button {
@@ -79,7 +79,7 @@
 
 @keyframes fadeout {
     from {
-        border-color: rgba(200,200,200,1);
+        border-color: rgba(230,230,230,1);
         background-color: #FFFFFF;
     }
     to {
@@ -163,7 +163,7 @@
 .task_wrapper{
     background-color: #52a800;
     margin-bottom: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
     border-top-right-radius: 20px;
     cursor: pointer;
 }
@@ -208,7 +208,7 @@
     padding: 10px;
     margin-bottom: 20px;
     background-color: #fafafa;
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.1);
     color: #666666;
     height: 25px;
     cursor: pointer;
