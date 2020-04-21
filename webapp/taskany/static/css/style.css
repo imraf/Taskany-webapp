@@ -1,27 +1,13 @@
 .body{
     background-color: #a4dbff;
     color: #202020;
-    font-family: Calibri;
-    margin: 0px;
-}
-
-.container{
-}
-
-.app_title{
-    font-family: "Monotype Corsiva" ;
-    font-size: 32px;
-    height: 50px;
-    line-height: 50px;
-    width: 200px;
-    font-weight: bold;
-    font-style: italic;
-    background-color: #f1f1f1;
-    border-bottom: 2px solid white;
+    font-family: "Calibri";
+    margin: 0;
+    overflow: hidden;
 }
 
 .content{
-    /*margin-left: 200px;*/
+    overflow: auto;
 }
 
 .top_bar{
