@@ -11,7 +11,7 @@ from flask_mongoengine import MongoEngine
 db = MongoEngine()
 db.init_app(app)
 
-from webapp.taskany.views.views import *
+from taskany.views.views import *
 
 app.add_url_rule("/reset", view_func=reset_data)
 app.add_url_rule("/", view_func=index)
