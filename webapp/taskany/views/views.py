@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, flash, jsonify, abort, request
 from bson import ObjectId
 import datetime
-from webapp.taskany.models.models import Task, TaskList, User, Role, Team
-from webapp.taskany.forms.forms import LoginForm
+from taskany.models.models import Task, TaskList, User, Role, Team
+from taskany.forms.forms import LoginForm
 from flask_login import current_user, login_user, logout_user, login_required
 
 

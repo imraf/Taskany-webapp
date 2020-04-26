@@ -7,7 +7,7 @@ from mongoengine import StringField, BooleanField, ListField, DateTimeField, Ref
 from enum import Enum, auto
 import datetime
 from bson import ObjectId
-from webapp.taskany.app import login
+from taskany.app import login
 
 
 class Role(Enum):
