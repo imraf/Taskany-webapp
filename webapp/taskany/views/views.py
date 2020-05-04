@@ -227,7 +227,7 @@ def create_mock_data():
     fry.save()
 
     farnsworth = User(name="Hubert Farnsworth", roles=[Role.USER.string(), Role.ADMIN.string()])
-    farnsworth.set_password("good_news_everyone")
+    farnsworth.set_password("WernstromSucks")
     farnsworth.save()
 
     amy = User(name="Amy Wong", roles=[Role.USER.string()])
@@ -235,7 +235,7 @@ def create_mock_data():
     amy.save()
 
     zoid = User(name="Zoidberd", roles=[Role.USER.string()])
-    zoid.set_password("why_not_zoidberg")
+    zoid.set_password("why_not_me")
     zoid.save()
 
     team1 = Team(name="Planet Express, Inc").save()
