@@ -1,5 +1,5 @@
 .body{
-    background-color: #a4dbff;
+    background-color: #92ceff;
     color: #202020;
     font-family: "Calibri";
     margin: 0;
@@ -33,6 +33,12 @@
     background-color: #4ab7ff;
     border-bottom: 2px solid white;
     overflow: hidden;
+}
+
+.top_bar_username{
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
 }
 
 .task_lists_wrapper{
@@ -396,7 +402,7 @@
     display: flex;
     overflow: auto;
     flex-direction: column;
-    background-color: #7bc4ff;
+    background-color: #92ceff;
     flex-grow: 1;
     align-items: center;
     font-family: "Calibri Light";
