@@ -391,3 +391,9 @@
     flex-basis: auto;
     min-width: 30px;
 }
+
+.form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

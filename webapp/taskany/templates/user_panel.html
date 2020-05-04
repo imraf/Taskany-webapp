@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+<div>
+    {% block main_app %}
+        {% include "component_top_bar.html" %}
+        <div class="content">
+            <div class="user_panel_wrapper">
+                <div class="edit_box_card_title">Name: </div>
+                <div class="user_panel_name_edit" contenteditable="true">
+                    {{ user.name }}
+                </div>
+
+                <div class="edit_box_card_title">Change password:</div>
+
+            </div>
+        </div>
+    {% endblock %}
+</div>

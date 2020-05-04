@@ -201,9 +201,23 @@ def user_allowed_to_access_list(task_list):
     return operation_allowed
 
 
+def sanitize_string(string):
+    #Todo: Sanitize
+    return string
 
+@login_required
+def user_change_name(new_name: str):
+    new_name = sanitize_string(new_name)
+    current_user.set_name(new_name)
+    return redirect(url_for('task_list'))
 
+@login_required
+def user_panel():
+    return render_template('user_panel.html', user=current_user)
 
+@login_required
+def user_change_password(new_password: str):
+    new_password = sanitize_string(new_password)
 
 
 ######### Mock Data Reset ##########

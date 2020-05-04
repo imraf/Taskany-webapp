@@ -30,8 +30,9 @@ class TaskStatus(Enum):
 
 class User(UserMixin, Document):
     TODO_LIST_NAME = "To Do"
+    MAX_NAME_LENGTH = 64
 
-    name = StringField(max_length=64)
+    name = StringField(max_length=MAX_NAME_LENGTH)
     roles = ListField(StringField())
     task_lists = ListField(ReferenceField('models.TaskList'))
     key_hash = BinaryField()
@@ -71,6 +72,11 @@ class User(UserMixin, Document):
     def is_admin(self):
         is_admin = Role.ADMIN.string() in self.roles
         return is_admin
+
+    def set_name(self, new_name):
+        if len(new_name) <= self.MAX_NAME_LENGTH:
+            self.name = new_name
+            self.save()
 
     @staticmethod
     @login.user_loader
