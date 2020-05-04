@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Optional, InputRequired
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -9,8 +9,12 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 class UserPanel(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    current_password = PasswordField('Password', validators=[DataRequired()])
-    new_password = PasswordField('New Password', validators=[DataRequired()])
-    new_password_retype = PasswordField('Retype Password', validators=[DataRequired()])
+    change_username = BooleanField('Change Username', default=False)
+    change_password = BooleanField('Change Password', default=False)
+
+    new_username = StringField('Username', render_kw={'disabled':''}, validators=[Optional()])
+    new_password = PasswordField('New Password', render_kw={'disabled':''}, validators=[Optional()])
+    confirm_password = PasswordField('Retype Password', render_kw={'disabled': ''}, validators=[Optional()])
+    current_password = PasswordField('Current Password', validators=[InputRequired()])
+
     submit = SubmitField('Save Changes')

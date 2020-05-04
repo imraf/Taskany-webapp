@@ -57,6 +57,7 @@ class User(UserMixin, Document):
                                        password=password.encode('utf-8'),
                                        salt=self.salt,
                                        iterations=10000)
+        self.save()
 
     def check_password(self, password: str):
         result = False

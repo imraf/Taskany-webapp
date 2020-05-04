@@ -371,7 +371,7 @@
     font-weight: bold;
 }
 
-.edit_box_card_title{
+.edit_box_section_title{
     text-transform: uppercase;
     font-size: 18px;
     text-align: center;
@@ -394,6 +394,46 @@
 
 .form{
     display: flex;
+    overflow: auto;
     flex-direction: column;
-    justify-content: center;
+    background-color: #7bc4ff;
+    flex-grow: 1;
+    align-items: center;
+    font-family: "Calibri Light";
+}
+
+.form_section{
+    background-color: #EBECF1;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    padding: 5px 20px 10px 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.form_actions{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.form_title{
+    color: black;
+    font-size: 26px;
+    text-transform: uppercase;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.message_flash{
+    margin-top: 5px;
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    border-width: 1px;
+    border-color: white;
+    border-radius: 5px;
+    width: 300px;
+    padding: 5px;
+    text-align: center;
+    font-family: "Calibri Light";
 }

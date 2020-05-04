@@ -1,19 +1,69 @@
 {% extends "base.html" %}
 
+{% block content %}
+    <div class="form">
 
-<div>
-    {% block main_app %}
-        {% include "component_top_bar.html" %}
-        <div class="content">
-            <div class="user_panel_wrapper">
-                <div class="edit_box_card_title">Name: </div>
-                <div class="user_panel_name_edit" contenteditable="true">
-                    {{ user.name }}
-                </div>
+        {% include 'flash_messages.html' %}
 
-                <div class="edit_box_card_title">Change password:</div>
-
+        <div class="form_title">User Panel</div>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="form_section">
+                <p>{{ form.change_username() }} {{ form.change_username.label }}</p>
+                <p>
+                    {{ form.new_username.label }}<br>
+                    {{ form.new_username(size=32, value=user.name) }}
+                </p>
             </div>
-        </div>
-    {% endblock %}
-</div>
+            <div class="form_section">
+                <p>{{ form.change_password() }} {{ form.change_password.label }}</p>
+                <p>
+                    {{ form.new_password.label }}<br>
+                    {{ form.new_password(size=32) }}
+                </p>
+                <p>
+                    {{ form.confirm_password.label }}<br>
+                    {{ form.confirm_password(size=32) }}
+                </p>
+            </div>
+            <div class="form_section">
+                <p style="color:red; font-weight: bold; text-align: center">You must enter your password
+                    <br>to make changes.
+                </p>
+                <p>
+                    {{ form.current_password.label }}<br>
+                    {{ form.current_password(size=32) }}
+                </p>
+            </div>
+            <div class="form_actions">
+                <div><a href="{{ url_for('task_list') }}">Cancel</a></div>
+                <div>{{ form.submit() }}</div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        var userNameCheckBox = document.getElementById('change_username');
+        userNameCheckBox.addEventListener( 'change', function() {
+            if(this.checked) {
+                document.getElementById('new_username').disabled = false;
+            } else {
+                 document.getElementById('new_username').disabled = true;
+            }
+        });
+
+        var PasswordCheckBox = document.getElementById('change_password');
+        PasswordCheckBox.addEventListener( 'change', function() {
+            if(this.checked) {
+                document.getElementById('new_password').disabled = false;
+                document.getElementById('confirm_password').disabled = false;
+            } else {
+                 document.getElementById('new_password').disabled = true;
+                 document.getElementById('confirm_password').disabled = true;
+            }
+        });
+
+        PasswordCheckBox.checked = false;
+        userNameCheckBox.checked = false;
+    </script>
+{% endblock %}

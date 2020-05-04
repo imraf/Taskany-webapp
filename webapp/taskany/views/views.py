@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, flash, jsonify, abort, req
 from bson import ObjectId
 import datetime
 from taskany.models.models import Task, TaskList, User, Role, Team
-from taskany.forms.forms import LoginForm
+from taskany.forms.forms import LoginForm, UserPanel
 from flask_login import current_user, login_user, logout_user, login_required
 
 
@@ -106,18 +106,99 @@ def reset_data():
 
 def app_login():
     if current_user.is_authenticated:
-        return redirect(url_for(task_list))
+        return redirect(url_for('task_list'))
 
     form = LoginForm()
     if form.validate_on_submit():
         user = User.objects(name=form.username.data).first()
         if user is None or not user.check_password(password=form.password.data):
+            flash("Username/Password mismatch.")
             return redirect(url_for('app_login'))
         else:
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('task_list'))
 
     return render_template('login.html', title="Sign In", form=form)
+
+
+def password_is_valid(passwd: str):
+    valid = True
+    if len(passwd) < 8:
+        valid = False
+    if len(passwd) > 32:
+        valid = False
+    if passwd.count(" ") > 0:
+        valid = False
+    # if not any(char.isdigit() for char in passwd):
+    #     valid = False
+    # if not any(char.isupper() for char in passwd):
+    #     valid = False
+    # if not any(char.islower() for char in passwd):
+    #     valid = False
+    return valid
+
+
+def username_is_valid(username):
+    valid = True
+    if not username.isalnum():
+        valid = False
+    if username.count(" ") > 0:
+        valid = False
+    if len(username) < 4:
+        valid = False
+
+    return valid
+
+
+@login_required
+def user_panel():
+    form = UserPanel()
+
+    if form.validate_on_submit():
+        operation_succeeded = False
+        current_password = sanitize_string(form.current_password.data)
+
+        if current_user.check_password(current_password):
+
+            # Username change
+            if form.change_username.data is True:
+                new_username = sanitize_string(form.new_username.data)
+                if username_is_valid(new_username):
+                    username_exists = User.objects(name=new_username).count() > 0
+                    if username_exists:
+                        flash("Failure: This username is already taken.")
+                    else:
+                        print(current_user.name, "[", str(current_user.id)  , "]", "became", new_username)
+                        current_user.set_name(new_username)
+                        flash("Username changed successfully.")
+                        operation_succeeded = True
+                else:
+                    flash("Invalid username: Must be at least 4 characters long.")
+
+            # Password Change
+            if form.change_password.data is True:
+                new_password = sanitize_string(form.new_password.data)
+                confirm_password = sanitize_string(form.confirm_password.data)
+                if new_password != confirm_password:
+                    flash("Failure: New password and retyped password don't match.")
+                else:
+                    if password_is_valid(new_password):
+                        current_user.set_password(new_password)
+                        print(current_user.name, "[", str(current_user.id), "]", "changed their password.")
+                        flash("Password changed successfully.")
+                        operation_succeeded = True
+                    else:
+                        flash("The new password is invalid: Must contain 8-32 characters and no spaces.")
+        else:
+            print("User", current_user.name, "attempted to change details with the wrong password.")
+            flash("Authentication failed.")
+
+        if operation_succeeded:
+            return redirect(url_for('app_logout'))
+        else:
+            return redirect(url_for('user_panel'))
+
+    return render_template("user_panel.html", user=current_user, title="User Panel", form=form)
 
 @login_required
 def app_logout():
@@ -210,10 +291,6 @@ def user_change_name(new_name: str):
     new_name = sanitize_string(new_name)
     current_user.set_name(new_name)
     return redirect(url_for('task_list'))
-
-@login_required
-def user_panel():
-    return render_template('user_panel.html', user=current_user)
 
 @login_required
 def user_change_password(new_password: str):

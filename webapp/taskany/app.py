@@ -28,7 +28,7 @@ app.add_url_rule("/task/<string:task_id>", view_func=get_task)
 app.add_url_rule("/list/<string:list_id>", view_func=get_list)
 app.add_url_rule("/set-incoming-list", view_func=set_incoming_list, methods=['POST'])
 app.add_url_rule("/move-task", view_func=move_task, methods=['POST'])
-app.add_url_rule("/change-name/<new_name>", view_func=user_change_name)
+app.add_url_rule("/user-panel", view_func=user_panel, methods=['GET', 'POST'])
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
