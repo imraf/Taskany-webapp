@@ -260,7 +260,7 @@ def user_allowed_to_access_task(task):
         operation_allowed = True
 
     # Accept Admin request
-    if Role.ADMIN.string() in current_user.roles:
+    if Role.ADMIN in current_user.roles:
         operation_allowed = True
 
     return operation_allowed
@@ -276,7 +276,7 @@ def user_allowed_to_access_list(task_list):
             operation_allowed = True
 
     # Accept Admin request
-    if Role.ADMIN.string() in current_user.roles:
+    if Role.ADMIN in current_user.roles:
         operation_allowed = True
 
     return operation_allowed
@@ -305,27 +305,27 @@ def create_mock_data():
     User.objects.delete()
     TaskList.objects().delete()
 
-    bender = User(name="Bender", roles=[Role.USER.string()])
+    bender = User(name="Bender", roles=[Role.USER])
     bender.set_password("shiny_metal")
     bender.save()
 
-    leela = User(name="Turanga Leela", roles=[Role.USER.string()])
+    leela = User(name="Turanga Leela", roles=[Role.USER])
     leela.set_password("one_eyed_peas")
     leela.save()
 
-    fry = User(name="Philip J. Fry", roles=[Role.USER.string()])
+    fry = User(name="Philip J. Fry", roles=[Role.USER])
     fry.set_password("panuccis_pizza")
     fry.save()
 
-    farnsworth = User(name="Hubert Farnsworth", roles=[Role.USER.string(), Role.ADMIN.string()])
-    farnsworth.set_password("WernstromSucks")
+    farnsworth = User(name="Hubert Farnsworth", roles=[Role.USER, Role.ADMIN])
+    farnsworth.set_password("good_news")
     farnsworth.save()
 
-    amy = User(name="Amy Wong", roles=[Role.USER.string()])
+    amy = User(name="Amy Wong", roles=[Role.USER])
     amy.set_password("martian_money")
     amy.save()
 
-    zoid = User(name="Zoidberd", roles=[Role.USER.string()])
+    zoid = User(name="Zoidberd", roles=[Role.USER])
     zoid.set_password("why_not_me")
     zoid.save()
 

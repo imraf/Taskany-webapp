@@ -5,35 +5,29 @@ import os
 from flask_login import UserMixin, current_user
 from mongoengine import StringField, BooleanField, ListField, DateTimeField, ReferenceField, BinaryField
 from enum import Enum, auto
+from .extras import EnumField
 import datetime
 from bson import ObjectId
 from taskany.app import login
 
-
 class Role(Enum):
-    ADMIN = auto()
-    USER = auto()
-
-    def string(self):
-        return self.name
+    ADMIN = 'Admin'
+    USER = 'User'
 
 class TaskStatus(Enum):
-    NEW = auto()
-    STARTED = auto()
-    DEFERRED = auto()
-    BACKLOG = auto()
-    IN_PROGRESS = auto()
-    DONE = auto()
-
-    def string(self):
-        return self.name
+    NEW = 'New'
+    STARTED = 'Started'
+    DEFERRED = 'Deferred'
+    BACKLOG = 'Backlog'
+    IN_PROGRESS = 'In Progress'
+    DONE = 'Done'
 
 class User(UserMixin, Document):
     TODO_LIST_NAME = "To Do"
     MAX_NAME_LENGTH = 64
 
     name = StringField(max_length=MAX_NAME_LENGTH)
-    roles = ListField(StringField())
+    roles = ListField(EnumField(Role), default=[Role.USER])
     task_lists = ListField(ReferenceField('models.TaskList'))
     key_hash = BinaryField()
     salt = BinaryField()
@@ -71,7 +65,7 @@ class User(UserMixin, Document):
         return result
 
     def is_admin(self):
-        is_admin = Role.ADMIN.string() in self.roles
+        is_admin = Role.ADMIN in self.roles
         return is_admin
 
     def set_name(self, new_name):
@@ -110,7 +104,7 @@ class Task(Document):
     title = StringField(max_length=128, default="New Task")
     body = StringField(default="")
     done = BooleanField(default=False)
-    status = StringField(default = TaskStatus.NEW.string())
+    status = EnumField(TaskStatus, default=TaskStatus.NEW)
     creation_date = DateTimeField(default=datetime.datetime.now)
     due_date = StringField(default="")
     owners = ListField(ReferenceField('models.User'))
