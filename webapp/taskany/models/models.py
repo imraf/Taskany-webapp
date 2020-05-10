@@ -3,32 +3,16 @@ from flask import jsonify
 import hashlib
 import os
 from flask_login import UserMixin, current_user
-from mongoengine import StringField, BooleanField, ListField, DateTimeField, ReferenceField, BinaryField, EmbeddedDocumentField
+from mongoengine import StringField, BooleanField, ListField, DateTimeField, ReferenceField, BinaryField
 from enum import Enum, auto
 from .extras import EnumField
 import datetime
 from bson import ObjectId
 from taskany.app import login
 
-from mongoengine import EmbeddedDocument, ValidationError
-
-
 class Role(Enum):
     ADMIN = 'Admin'
     USER = 'User'
-
-class EmbTest(EmbeddedDocument):
-    role = EnumField(Role)
-    required = StringField(required=True)
-
-    def validate(self, clean=True):
-        if self.role == Role.USER:
-            print("USER!!!")
-            raise ValidationError("User detected. Only admins are allowed! ANNIHILATE!")
-        else:
-            print("No")
-
-        return super(EmbTest, self).validate()
 
 class TaskStatus(Enum):
     NEW = 'New'
@@ -42,7 +26,6 @@ class User(UserMixin, Document):
     TODO_LIST_NAME = "To Do"
     MAX_NAME_LENGTH = 64
 
-    emb_test = EmbeddedDocumentField('models.EmbTest')
     name = StringField(max_length=MAX_NAME_LENGTH)
     roles = ListField(EnumField(Role), default=[Role.USER])
     task_lists = ListField(ReferenceField('models.TaskList'))

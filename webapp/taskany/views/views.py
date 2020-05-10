@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, jsonify, abort, request
 from bson import ObjectId
 import datetime
-from taskany.models.models import Task, TaskList, User, Role, Team, EmbTest
+from taskany.models.models import Task, TaskList, User, Role, Team
 from taskany.forms.forms import LoginForm, UserPanel
 from flask_login import current_user, login_user, logout_user, login_required
 
@@ -307,14 +307,6 @@ def create_mock_data():
 
     bender = User(name="Bender", roles=[Role.USER])
     bender.set_password("shiny_metal")
-
-    ### Embedded Document with Validation exmaple:
-    # Role must be admin, and "required" must be string, or validation will fail.
-    # Role is an enum which is checked in the subclass, "required" is checked in the super class.
-    emb = EmbTest(role = Role.ADMIN, required='This is required...')
-    bender.emb_test = emb
-    ### // END Example
-
     bender.save()
 
     leela = User(name="Turanga Leela", roles=[Role.USER])
