@@ -307,8 +307,14 @@ def create_mock_data():
 
     bender = User(name="Bender", roles=[Role.USER])
     bender.set_password("shiny_metal")
-    emb = EmbTest(role = Role.USER)
+
+    ### Embedded Document with Validation exmaple:
+    # Role must be admin, and "required" must be string, or validation will fail.
+    # Role is an enum which is checked in the subclass, "required" is checked in the super class.
+    emb = EmbTest(role = Role.ADMIN, required='This is required...')
     bender.emb_test = emb
+    ### // END Example
+
     bender.save()
 
     leela = User(name="Turanga Leela", roles=[Role.USER])

@@ -10,7 +10,7 @@ import datetime
 from bson import ObjectId
 from taskany.app import login
 
-from mongoengine import EmbeddedDocument
+from mongoengine import EmbeddedDocument, ValidationError
 
 
 class Role(Enum):
@@ -19,12 +19,16 @@ class Role(Enum):
 
 class EmbTest(EmbeddedDocument):
     role = EnumField(Role)
+    required = StringField(required=True)
 
     def validate(self, clean=True):
         if self.role == Role.USER:
-            print("Yeah")
+            print("USER!!!")
+            raise ValidationError("User detected. Only admins are allowed! ANNIHILATE!")
         else:
             print("No")
+
+        return super(EmbTest, self).validate()
 
 class TaskStatus(Enum):
     NEW = 'New'
