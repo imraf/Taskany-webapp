@@ -92,7 +92,7 @@ def set_incoming_list():
         abort(403)
 
 def index():
-    return "Hello"
+    return redirect(url_for('app_login'))
 
 def reset_data():
     system_has_no_users = User.objects.count() == 0
